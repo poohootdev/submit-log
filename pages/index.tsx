@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
+import CreateSubmitLog from './create-submit-log';
 
 const Home: NextPage = () => {
-  return <h1 className="text-3xl font-bold underline">TailwindCSS!</h1>;
+  return <CreateSubmitLog />;
 };
 
 export default Home;
