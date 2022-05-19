@@ -8,7 +8,10 @@ const CreateSubmitLog: NextPage = () => {
   const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
   const [impact, setImpact] = useState('');
+  const [impactCheckBox, setImpactCheckBox] = useState(false);
   const [test, setTest] = useState('');
+  const [testCheckBox, setTestCheckBox] = useState(false);
+
   const [result, setResult] = useState('');
 
   useEffect(() => {
@@ -45,6 +48,28 @@ const CreateSubmitLog: NextPage = () => {
     }
   };
 
+  const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
+
+    if (e.target.id === 'checkbox-impact') {
+      setImpactCheckBox(e.target.checked);
+      if (e.target.checked) {
+        setImpact('없음');
+      } else {
+        setImpact('');
+      }
+    }
+
+    if (e.target.id === 'checkbox-test') {
+      setTestCheckBox(e.target.checked);
+      if (e.target.checked) {
+        setTest('없음');
+      } else {
+        setTest('');
+      }
+    }
+  };
+
   const onClickCopy = () => {
     alert('😊 복사 완료!\n' + result);
   };
@@ -54,7 +79,9 @@ const CreateSubmitLog: NextPage = () => {
     setSummary('');
     setDescription('');
     setImpact('');
+    setImpactCheckBox(false);
     setTest('');
+    setTestCheckBox(false);
   };
 
   return (
@@ -139,8 +166,17 @@ const CreateSubmitLog: NextPage = () => {
                     {impact === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                     영향범위
                   </div>
-                  {/* <input id="checkbox-impact" name="checkbox-impact" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                  <div className="text-sm text-gray-900">없음</div> */}
+                  <input
+                    id="checkbox-impact"
+                    name="checkbox-impact"
+                    type="checkbox"
+                    className="sm:mt-0 sm:ml-3 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    onChange={onChangeCheckBox}
+                    checked={impactCheckBox}
+                  />
+                  <label className="text-sm text-gray-900" htmlFor="checkbox-impact">
+                    없음
+                  </label>
                 </div>
                 <div className="mt-1">
                   <textarea
@@ -151,6 +187,7 @@ const CreateSubmitLog: NextPage = () => {
                     placeholder="ex) 강화 결과창"
                     onChange={onChangTextArea}
                     value={impact}
+                    disabled={impactCheckBox}
                   />
                 </div>
               </div>
@@ -162,8 +199,17 @@ const CreateSubmitLog: NextPage = () => {
                     {test === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                     테스트 건의
                   </div>
-                  {/* <input id="checkbox-test" name="checkbox-test" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                  <div className="text-sm text-gray-900">없음</div> */}
+                  <input
+                    id="checkbox-test"
+                    name="checkbox-test"
+                    type="checkbox"
+                    className="sm:mt-0 sm:ml-3 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    onChange={onChangeCheckBox}
+                    checked={testCheckBox}
+                  />
+                  <label className="text-sm text-gray-900" htmlFor="checkbox-test">
+                    없음
+                  </label>
                 </div>
                 <div className="mt-1">
                   <textarea
@@ -174,6 +220,7 @@ const CreateSubmitLog: NextPage = () => {
                     placeholder="ex) 강화 결과창 가이드, 연출이 정상적으로 출력이 되는지 확인"
                     onChange={onChangTextArea}
                     value={test}
+                    disabled={testCheckBox}
                   />
                 </div>
               </div>
