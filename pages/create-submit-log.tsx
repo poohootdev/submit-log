@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { CalendarIcon, ClipboardCopyIcon, CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const CreateSubmitLog: NextPage = () => {
   const [keyword, setKeyword] = useState('');
@@ -216,13 +217,15 @@ const CreateSubmitLog: NextPage = () => {
                 </button>
               </div>
               <div className="inline-flex rounded-md shadow">
-                <button
-                  onClick={onClickCopy}
-                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-                >
-                  <ClipboardCopyIcon className="-ml-1 mr-2 h-5 w-5" />
-                  복사
-                </button>
+                <CopyToClipboard text={result}>
+                  <button
+                    onClick={onClickCopy}
+                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                  >
+                    <ClipboardCopyIcon className="-ml-1 mr-2 h-5 w-5" />
+                    복사
+                  </button>
+                </CopyToClipboard>
               </div>
             </div>
           </div>
