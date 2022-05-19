@@ -210,17 +210,17 @@ const CreateSubmitLog: NextPage = () => {
               <div className="inline-flex rounded-md shadow">
                 <button
                   onClick={onClickInit}
-                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
+                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
                 >
                   <RefreshIcon className="-ml-1 mr-2 h-5 w-5" />
                   초기화
                 </button>
               </div>
-              <div className="inline-flex rounded-md shadow">
+              <div className="inline-flex rounded-md shadow mt-3 sm:mt-0 sm:ml-3">
                 <CopyToClipboard text={result}>
                   <button
                     onClick={onClickCopy}
-                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                   >
                     <ClipboardCopyIcon className="-ml-1 mr-2 h-5 w-5" />
                     복사
