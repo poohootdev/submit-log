@@ -49,8 +49,6 @@ const CreateSubmitLog: NextPage = () => {
   };
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.checked);
-
     if (e.target.id === 'checkbox-impact') {
       setImpactCheckBox(e.target.checked);
       if (e.target.checked) {
@@ -84,6 +82,45 @@ const CreateSubmitLog: NextPage = () => {
     setTestCheckBox(false);
   };
 
+  async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+
+    try {
+      const clipboardItems = await navigator.clipboard.read();
+
+      for (const clipboardItem of clipboardItems) {
+        for (const type of clipboardItem.types) {
+          const blob = await clipboardItem.getType(type);
+          const text = blob.text();
+
+          if (type === 'text/plain') {
+            text.then((data) => {
+              if (data.substring(0, 7) != 'hansoft') {
+                alert(`'한소프트 링크 복사'해 주세요.`);
+              }
+            });
+          } else if (type === 'text/html') {
+            text.then((data) => {
+              if (data.substring(0, 16) == '<a href="hansoft') {
+                const url = data.split('<a href="')[1].split('">')[0];
+                const task = '- ' + data.replace(/(<([^>]+)>)/gi, '');
+                setDescription(url + '\n' + task);
+              }
+            });
+          }
+        }
+      }
+    } catch (err) {
+      // console.error(err.name, err.message);
+    }
+  }
+
+  const onKeyPressLock = (e: React.KeyboardEvent<Element>) => {
+    if (e.code == 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <div>
@@ -95,7 +132,7 @@ const CreateSubmitLog: NextPage = () => {
               </h2>
               <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
                 <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                update : 2022-05-19
+                update : 2022-05-23
               </div>
               <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
                 <ClipboardCopyIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
@@ -104,6 +141,8 @@ const CreateSubmitLog: NextPage = () => {
             </div>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
+            <div className="py-1"></div>
+
             <form>
               <div className="col-span-3 sm:col-span-2">
                 <div className="flex items-center text-sm text-gray-700">
@@ -119,6 +158,7 @@ const CreateSubmitLog: NextPage = () => {
                   placeholder="ex) 강화"
                   onChange={onChangInput}
                   value={keyword}
+                  onKeyPress={onKeyPressLock}
                 />
               </div>
               <div className="py-3"></div>
@@ -137,6 +177,7 @@ const CreateSubmitLog: NextPage = () => {
                   placeholder="ex) 결과창 가이드 추가"
                   onChange={onChangInput}
                   value={summary}
+                  onKeyPress={onKeyPressLock}
                 />
               </div>
               <div className="py-3"></div>
@@ -145,7 +186,13 @@ const CreateSubmitLog: NextPage = () => {
                 <div className="flex items-center text-sm text-gray-700">
                   {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                   설명
+                  <div className="sm:mt-0 sm:ml-3 inline-flex rounded-md shadow">
+                    <button className="py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600" onClick={onClickAttachHanSoft}>
+                      한소프트 설명 붙이기
+                    </button>
+                  </div>
                 </div>
+
                 <div className="mt-1">
                   <textarea
                     id="textarea-description"
