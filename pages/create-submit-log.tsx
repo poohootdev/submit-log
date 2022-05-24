@@ -93,12 +93,16 @@ const CreateSubmitLog: NextPage = () => {
           const blob = await clipboardItem.getType(type);
           const text = blob.text();
 
+          console.log(type);
+
           if (type === 'text/plain') {
             text.then((data) => {
               if (data.substring(0, 7) != 'hansoft') {
                 alert(`'한소프트 링크 복사'해 주세요.`);
               }
             });
+          } else if (type === 'image/png') {
+            alert(`'한소프트 링크 복사'해 주세요.`);
           } else if (type === 'text/html') {
             text.then((data) => {
               if (data.substring(0, 16) == '<a href="hansoft') {
