@@ -93,8 +93,6 @@ const CreateSubmitLog: NextPage = () => {
           const blob = await clipboardItem.getType(type);
           const text = blob.text();
 
-          console.log(type);
-
           if (type === 'text/plain') {
             text.then((data) => {
               if (data.substring(0, 7) != 'hansoft') {
@@ -116,6 +114,7 @@ const CreateSubmitLog: NextPage = () => {
       }
     } catch (err) {
       // console.error(err.name, err.message);
+      alert(`'한소프트 링크 복사'해 주세요.`);
     }
   }
 
@@ -136,7 +135,7 @@ const CreateSubmitLog: NextPage = () => {
               </h2>
               <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
                 <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                update : 2022-05-23
+                update : 2022-06-21
               </div>
               <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
                 <ClipboardCopyIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
