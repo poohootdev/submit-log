@@ -1,15 +1,14 @@
 //next.config.js
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  async rewrites() {
+module.exports = (phase, { defaultConfig }) => {
+  const rewrites = () => {
     return [
       {
-        source: '/api/:path*',
-        destination: `https://jira.astorm.com/rest/api/2/issue/:path*`,
+        source: '/api/:slug*',
+        destination: `https://jira.astorm.com/rest/api/2/issue/:slug*`,
       },
     ];
-  },
-};
+  };
 
-module.exports = nextConfig;
+  return { rewrites };
+};
