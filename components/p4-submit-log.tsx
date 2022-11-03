@@ -15,7 +15,7 @@ const CreateSubmitLog: NextPage = () => {
   const [result, setResult] = useState('');
 
   useEffect(() => {
-    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n{{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}`;
+    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}`;
     template = template.replace('{{__keyword__}}', keyword);
     template = template.replace('{{__summary__}}', summary);
     template = template.replace('{{__description__}}', description);
@@ -82,6 +82,11 @@ const CreateSubmitLog: NextPage = () => {
     setTestCheckBox(false);
   };
 
+  const getDataSummary = async (key: string) => {
+    const res = await fetch('/api/' + key).then((res) => res.json());
+    setSummary(res.fields.summary);
+  };
+
   async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
@@ -95,26 +100,22 @@ const CreateSubmitLog: NextPage = () => {
 
           if (type === 'text/plain') {
             text.then((data) => {
-              if (data.substring(0, 7) != 'hansoft') {
-                alert(`'한소프트 링크 복사'해 주세요.`);
+              if (data.substring(0, 31) != 'https://jira.astorm.com/browse/') {
+                alert(`'JIRA 링크를 복사'해 주세요.`);
+                return;
               }
+              getDataSummary(data.split('/')[4]);
+              setDescription(data);
             });
           } else if (type === 'image/png') {
-            alert(`'한소프트 링크 복사'해 주세요.`);
+            alert(`'JIRA 링크를 복사'해 주세요.\n클립보드에 이미지가 들어있어요.`);
           } else if (type === 'text/html') {
-            text.then((data) => {
-              if (data.substring(0, 16) == '<a href="hansoft') {
-                const url = data.split('<a href="')[1].split('">')[0];
-                const task = '- ' + data.replace(/(<([^>]+)>)/gi, '');
-                setDescription(url + '\n' + task);
-              }
-            });
           }
         }
       }
     } catch (err) {
       // console.error(err.name, err.message);
-      alert(`'한소프트 링크 복사'해 주세요.`);
+      alert(`'JIRA 링크 복사'해 주세요.`);
     }
   }
 
@@ -131,7 +132,12 @@ const CreateSubmitLog: NextPage = () => {
           <div>
             <form className="space-y-3">
               <div className="col-span-3 sm:col-span-2">
-                <div className="flex items-center text-sm text-gray-700">
+                <div className="inline-flex rounded-md shadow">
+                  <button className="py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600" onClick={onClickAttachHanSoft}>
+                    JIRA URL 붙이기 📋
+                  </button>
+                </div>
+                <div className="flex items-center text-sm text-gray-700 pt-2">
                   {keyword === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                   키워드
                 </div>
@@ -167,12 +173,7 @@ const CreateSubmitLog: NextPage = () => {
               <div>
                 <div className="flex items-center text-sm text-gray-700">
                   {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                  설명
-                  <div className="sm:mt-0 sm:ml-3 inline-flex rounded-md shadow">
-                    <button className="py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600" onClick={onClickAttachHanSoft}>
-                      한소프트 설명 붙이기
-                    </button>
-                  </div>
+                  이슈경로
                 </div>
 
                 <div className="mt-1">
@@ -181,7 +182,7 @@ const CreateSubmitLog: NextPage = () => {
                     name="textarea-description"
                     rows={3}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder={'ex) hansoft://hansoft.xxx.com;hansoft;abcde1234/Task/56789?ID=12345\n- 강화 결과창 가이드 추가\n- 연출 수정'}
+                    placeholder={'ex) https://jira.asasas.com/browse/ND-1097'}
                     onChange={onChangTextArea}
                     value={description}
                   />
