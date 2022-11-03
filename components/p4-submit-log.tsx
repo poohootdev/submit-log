@@ -85,7 +85,7 @@ const CreateSubmitLog: NextPage = () => {
 
   const getDataSummary = async (key: string) => {
     try {
-      const result = await axios.post('/api/' + key);
+      const result = await axios.get('/api/' + key);
       console.log(result.data);
       if (result) {
         setSummary(result.data.fields.summary);
