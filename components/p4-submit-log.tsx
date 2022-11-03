@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { ClipboardCopyIcon, CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import axios from 'axios';
 
 const CreateSubmitLog: NextPage = () => {
   const [keyword, setKeyword] = useState('');
@@ -83,8 +84,13 @@ const CreateSubmitLog: NextPage = () => {
   };
 
   const getDataSummary = async (key: string) => {
-    const res = await fetch('https://jira.astorm.com/rest/api/2/issue/' + key).then((res) => res.json());
-    setSummary(res.fields.summary);
+    try {
+      const result = await axios.get('/api/' + key);
+      // console.log(result.data);
+      if (result) {
+        setSummary(result.data.fields.summary);
+      }
+    } catch (e) {}
   };
 
   async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {
