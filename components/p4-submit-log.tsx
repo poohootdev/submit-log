@@ -83,7 +83,7 @@ const CreateSubmitLog: NextPage = () => {
   };
 
   const getDataSummary = async (key: string) => {
-    const res = await fetch('/api/' + key).then((res) => res.json());
+    const res = await fetch('https://jira.astorm.com/rest/api/2/issue/' + key).then((res) => res.json());
     setSummary(res.fields.summary);
   };
 
