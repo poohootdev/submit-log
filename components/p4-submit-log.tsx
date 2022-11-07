@@ -85,12 +85,14 @@ const CreateSubmitLog: NextPage = () => {
 
   const getDataSummary = async (key: string) => {
     try {
-      const result = await axios.get('/api/' + key);
+      const result = await axios.get(`/api/${key}`);
       console.log(result.data);
       if (result) {
         setSummary(result.data.fields.summary);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {

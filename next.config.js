@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
-
   async rewrites() {
     return [
       {
-        source: '/api/:id',
-        destination: `https://jira.astorm.com/rest/api/2/issue/:id`,
+        source: '/api/:path*',
+        destination: `https://jira.astorm.com/rest/api/2/issue/:path*`,
       },
     ];
   },
 };
+
+module.exports = nextConfig;
