@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import { ClipboardCopyIcon, CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import axios from 'axios';
 
 const CreateSubmitLog: NextPage = () => {
   const [keyword, setKeyword] = useState('');
@@ -83,17 +82,17 @@ const CreateSubmitLog: NextPage = () => {
     setTestCheckBox(false);
   };
 
-  const getDataSummary = async (key: string) => {
-    try {
-      const result = await axios.get(`/api/${key}`);
-      console.log(result.data);
-      if (result) {
-        setSummary(result.data.fields.summary);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getDataSummary = async (key: string) => {
+  //   try {
+  //     const result = await axios.get(`/api/${key}`);
+  //     console.log(result.data);
+  //     if (result) {
+  //       setSummary(result.data.fields.summary);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -112,7 +111,7 @@ const CreateSubmitLog: NextPage = () => {
                 alert(`'JIRA 링크를 복사'해 주세요.`);
                 return;
               }
-              getDataSummary(data.split('/')[4]);
+              // getDataSummary(data.split('/')[4]);
               setDescription(data);
             });
           } else if (type === 'image/png') {
