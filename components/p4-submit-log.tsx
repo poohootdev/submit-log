@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ClipboardCopyIcon, CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -11,16 +11,18 @@ const CreateSubmitLog: NextPage = () => {
   const [impactCheckBox, setImpactCheckBox] = useState(false);
   const [test, setTest] = useState('');
   const [testCheckBox, setTestCheckBox] = useState(false);
+  const [updateNote, setUpdateNote] = useState('');
 
   const [result, setResult] = useState('');
 
   useEffect(() => {
-    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}`;
+    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}\n[업데이트 노트]:{{__updateNote__}}`;
     template = template.replace('{{__keyword__}}', keyword);
     template = template.replace('{{__summary__}}', summary);
     template = template.replace('{{__description__}}', description);
     template = template.replace('{{__impact__}}', impact);
     template = template.replace('{{__test__}}', test);
+    template = template.replace('{{__updateNote__}}', updateNote);
     setResult(template);
   });
 
@@ -45,6 +47,10 @@ const CreateSubmitLog: NextPage = () => {
 
     if (e.target.id === 'textarea-test') {
       setTest(e.target.value);
+    }
+
+    if (e.target.id === 'textarea-update-note') {
+      setUpdateNote(e.target.value);
     }
   };
 
@@ -80,51 +86,8 @@ const CreateSubmitLog: NextPage = () => {
     setImpactCheckBox(false);
     setTest('');
     setTestCheckBox(false);
+    setUpdateNote('');
   };
-
-  // const getDataSummary = async (key: string) => {
-  //   try {
-  //     const result = await axios.get(`/api/${key}`);
-  //     console.log(result.data);
-  //     if (result) {
-  //       setSummary(result.data.fields.summary);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  async function onClickAttachHanSoft(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-
-    try {
-      const clipboardItems = await navigator.clipboard.read();
-
-      for (const clipboardItem of clipboardItems) {
-        for (const type of clipboardItem.types) {
-          const blob = await clipboardItem.getType(type);
-          const text = blob.text();
-
-          if (type === 'text/plain') {
-            text.then((data) => {
-              if (data.substring(0, 31) != 'https://jira.astorm.com/browse/') {
-                alert(`'JIRA 링크를 복사'해 주세요.`);
-                return;
-              }
-              // getDataSummary(data.split('/')[4]);
-              setDescription(data);
-            });
-          } else if (type === 'image/png') {
-            alert(`'JIRA 링크를 복사'해 주세요.\n클립보드에 이미지가 들어있어요.`);
-          } else if (type === 'text/html') {
-          }
-        }
-      }
-    } catch (err) {
-      // console.error(err.name, err.message);
-      alert(`'JIRA 링크 복사'해 주세요.`);
-    }
-  }
 
   const onKeyPressLock = (e: React.KeyboardEvent<Element>) => {
     if (e.code == 'Enter') {
@@ -139,11 +102,6 @@ const CreateSubmitLog: NextPage = () => {
           <div>
             <form className="space-y-3">
               <div className="col-span-3 sm:col-span-2">
-                <div className="inline-flex rounded-md shadow">
-                  <button className="py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600" onClick={onClickAttachHanSoft}>
-                    JIRA URL 붙이기 📋
-                  </button>
-                </div>
                 <div className="flex items-center text-sm text-gray-700 pt-2">
                   {keyword === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                   키워드
@@ -255,6 +213,26 @@ const CreateSubmitLog: NextPage = () => {
                     onChange={onChangTextArea}
                     value={test}
                     disabled={testCheckBox}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center">
+                  <div className="flex items-center text-sm text-gray-700">
+                    {updateNote === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
+                    업데이트 노트
+                  </div>
+                </div>
+                <div className="mt-1">
+                  <textarea
+                    id="textarea-update-note"
+                    name="textarea-update-note"
+                    rows={5}
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
+                    placeholder="ex) 강화 결과창 가이드 UI가 나타나는 연출이 비정상적으로 출력되는 버그 수정하였습니다."
+                    onChange={onChangTextArea}
+                    value={updateNote}
                   />
                 </div>
               </div>

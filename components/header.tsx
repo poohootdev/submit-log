@@ -42,7 +42,7 @@ export default function Header(props: HeaderType) {
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
             <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-              update : 2022-11-03
+              update : 2023-03-22
             </div>
           </span>
         </div>
