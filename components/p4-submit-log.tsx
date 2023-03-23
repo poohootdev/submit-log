@@ -11,18 +11,19 @@ const CreateSubmitLog: NextPage = () => {
   const [impactCheckBox, setImpactCheckBox] = useState(false);
   const [test, setTest] = useState('');
   const [testCheckBox, setTestCheckBox] = useState(false);
-  const [updateNote, setUpdateNote] = useState('');
+  // const [updateNote, setUpdateNote] = useState('');
 
   const [result, setResult] = useState('');
 
   useEffect(() => {
-    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}\n[업데이트 노트]:{{__updateNote__}}`;
+    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}`;
+    // let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}\n[업데이트 노트]:{{__updateNote__}}`;
     template = template.replace('{{__keyword__}}', keyword);
     template = template.replace('{{__summary__}}', summary);
     template = template.replace('{{__description__}}', description);
     template = template.replace('{{__impact__}}', impact);
     template = template.replace('{{__test__}}', test);
-    template = template.replace('{{__updateNote__}}', updateNote);
+    // template = template.replace('{{__updateNote__}}', updateNote);
     setResult(template);
   });
 
@@ -49,9 +50,9 @@ const CreateSubmitLog: NextPage = () => {
       setTest(e.target.value);
     }
 
-    if (e.target.id === 'textarea-update-note') {
-      setUpdateNote(e.target.value);
-    }
+    // if (e.target.id === 'textarea-update-note') {
+    //   setUpdateNote(e.target.value);
+    // }
   };
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +87,7 @@ const CreateSubmitLog: NextPage = () => {
     setImpactCheckBox(false);
     setTest('');
     setTestCheckBox(false);
-    setUpdateNote('');
+    // setUpdateNote('');
   };
 
   const onKeyPressLock = (e: React.KeyboardEvent<Element>) => {
@@ -217,7 +218,7 @@ const CreateSubmitLog: NextPage = () => {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <div className="flex items-center">
                   <div className="flex items-center text-sm text-gray-700">
                     {updateNote === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
@@ -235,7 +236,7 @@ const CreateSubmitLog: NextPage = () => {
                     value={updateNote}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="hidden sm:block" aria-hidden="true">
                 <div className="py-5">
