@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import React, { useState, useEffect, useRef } from 'react';
-import { ClipboardCopyIcon, CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
+import { CheckCircleIcon, RefreshIcon } from '@heroicons/react/solid';
 
 const CreateSubmitLog: NextPage = () => {
   const [origin, setOrigin] = useState('');
@@ -27,16 +27,6 @@ const CreateSubmitLog: NextPage = () => {
       setResult(result);
     }
   }, [origin]);
-
-  const handleCopy = () => {
-    const range = document.createRange();
-    range.selectNode(copyContent.current as Node);
-    window.getSelection()?.addRange(range);
-    document.execCommand('copy');
-    window.getSelection()?.removeAllRanges();
-
-    alert('복사 완료');
-  };
 
   async function onClickAttach(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -121,6 +111,7 @@ const CreateSubmitLog: NextPage = () => {
                   {origin !== '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" />}
                   <div className="text-sm font-medium text-gray-700">결과</div>
                 </div>
+                <div className="text-sm font-medium text-red-700">*마우스로 드래그하여 복사하세요.</div>
               </div>
               <div ref={copyContent}>
                 <span>{result}</span>
@@ -140,16 +131,6 @@ const CreateSubmitLog: NextPage = () => {
                 >
                   <RefreshIcon className="-ml-1 mr-2 h-5 w-5" />
                   초기화
-                </button>
-              </div>
-
-              <div className="inline-flex rounded-md shadow mt-3 sm:mt-0 sm:ml-3">
-                <button
-                  onClick={handleCopy}
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                >
-                  <ClipboardCopyIcon className="-ml-1 mr-2 h-5 w-5" />
-                  복사
                 </button>
               </div>
             </div>
