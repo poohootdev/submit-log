@@ -97,24 +97,24 @@ const CreateSubmitLog: NextPage = () => {
           <div>
             <form className="space-y-3">
               <div className="col-span-3 sm:col-span-2">
-              <div>
-                <div className="flex items-center text-sm text-gray-700">
-                  {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                  지라링크
-                </div>
+                <div>
+                  <div className="flex items-center text-sm text-gray-700">
+                    {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
+                    지라링크
+                  </div>
 
-                <div className="mt-1">
-                  <textarea
-                    id="textarea-description"
-                    name="textarea-description"
-                    rows={3}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder={'ex) https://jira.asasas.com/browse/ND-1097'}
-                    onChange={onChangTextArea}
-                    value={description}
-                  />
+                  <div className="mt-1">
+                    <textarea
+                      id="textarea-description"
+                      name="textarea-description"
+                      rows={3}
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
+                      placeholder={'ex) https://jira.asasas.com/browse/ND-1097'}
+                      onChange={onChangTextArea}
+                      value={description}
+                    />
+                  </div>
                 </div>
-              </div>                
                 <div className="flex items-center text-sm text-gray-700 pt-2">
                   {keyword === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
                   이슈 키워드
