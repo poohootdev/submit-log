@@ -23,38 +23,14 @@ export default function Header(props: HeaderType) {
                     <path d="M0 1.777C0 .796.796 0 1.777 0h12.446C15.204 0 16 .796 16 1.777v12.446c0 .981-.796 1.777-1.777 1.777H1.777A1.778 1.778 0 0 1 0 14.223V1.777z" fill="#10B1DF" />
                   </g>
                 </svg>
-                <div className="ml-1">P4 Submit Log</div>
-              </a>
-            </Link>
-
-            <Link href="/jira">
-              <a className={selectedIndex === 1 ? SELECTED : UP}>
-                <svg className="mt-1" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" fillRule="evenodd">
-                    <path d="M0 1.777C0 .796.796 0 1.777 0h12.446C15.204 0 16 .796 16 1.777v12.446c0 .981-.796 1.777-1.777 1.777H1.777A1.778 1.778 0 0 1 0 14.223V1.777z" fill="#FF5630" />
-                    <circle fill="#FFF" cx="8" cy="8" r="4" />
-                  </g>
-                </svg>
-                <div className="ml-1">Jira Bug Comment Log</div>
-              </a>
-            </Link>
-
-            <Link href="/update">
-              <a className={selectedIndex === 2 ? SELECTED : UP}>
-                <svg className="mt-1" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" fillRule="evenodd">
-                    <path d="M0 1.777C0 .796.796 0 1.777 0h12.446C15.204 0 16 .796 16 1.777v12.446c0 .981-.796 1.777-1.777 1.777H1.777A1.778 1.778 0 0 1 0 14.223V1.777z" fill="#FF5630" />
-                    <circle fill="#FFF" cx="8" cy="8" r="4" />
-                  </g>
-                </svg>
-                <div className="ml-1">Update Note</div>
+                <div className="ml-1">Submit Log</div>
               </a>
             </Link>
           </nav>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
             <div className="mt-2 ml-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-              update : 2023-03-22
+              update : 2024-08-07
             </div>
           </span>
         </div>

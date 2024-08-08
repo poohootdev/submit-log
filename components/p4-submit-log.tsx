@@ -11,19 +11,17 @@ const CreateSubmitLog: NextPage = () => {
   const [impactCheckBox, setImpactCheckBox] = useState(false);
   const [test, setTest] = useState('');
   const [testCheckBox, setTestCheckBox] = useState(false);
-  // const [updateNote, setUpdateNote] = useState('');
 
   const [result, setResult] = useState('');
 
   useEffect(() => {
-    let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}`;
-    // let template = `[이슈키워드]: "{{__keyword__}}" {{__summary__}}\n[이슈경로]: {{__description__}}\n[영향범위]:{{__impact__}}\n[테스트건의]:{{__test__}}\n[업데이트 노트]:{{__updateNote__}}`;
+    let template = `[지라링크]: {{__description__}}\n[이슈키워드]: {{__keyword__}}\n[작업 내용]: {{__summary__}}\n[작업자 테스트 여부]: {{__impact__}}\n[기타]: {{__test__}}`;
+
     template = template.replace('{{__keyword__}}', keyword);
     template = template.replace('{{__summary__}}', summary);
     template = template.replace('{{__description__}}', description);
     template = template.replace('{{__impact__}}', impact);
     template = template.replace('{{__test__}}', test);
-    // template = template.replace('{{__updateNote__}}', updateNote);
     setResult(template);
   });
 
@@ -31,13 +29,13 @@ const CreateSubmitLog: NextPage = () => {
     if (e.target.id === 'input-keyword') {
       setKeyword(e.target.value);
     }
-
-    if (e.target.id === 'input-summary') {
-      setSummary(e.target.value);
-    }
   };
 
   const onChangTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.id === 'textarea-summary') {
+      setSummary(e.target.value);
+    }
+
     if (e.target.id === 'textarea-description') {
       setDescription(e.target.value);
     }
@@ -49,10 +47,6 @@ const CreateSubmitLog: NextPage = () => {
     if (e.target.id === 'textarea-test') {
       setTest(e.target.value);
     }
-
-    // if (e.target.id === 'textarea-update-note') {
-    //   setUpdateNote(e.target.value);
-    // }
   };
 
   const onChangeCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,9 +97,27 @@ const CreateSubmitLog: NextPage = () => {
           <div>
             <form className="space-y-3">
               <div className="col-span-3 sm:col-span-2">
+              <div>
+                <div className="flex items-center text-sm text-gray-700">
+                  {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
+                  지라링크
+                </div>
+
+                <div className="mt-1">
+                  <textarea
+                    id="textarea-description"
+                    name="textarea-description"
+                    rows={3}
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
+                    placeholder={'ex) https://jira.asasas.com/browse/ND-1097'}
+                    onChange={onChangTextArea}
+                    value={description}
+                  />
+                </div>
+              </div>                
                 <div className="flex items-center text-sm text-gray-700 pt-2">
                   {keyword === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                  키워드
+                  이슈 키워드
                 </div>
                 <input
                   type="text"
@@ -122,35 +134,17 @@ const CreateSubmitLog: NextPage = () => {
               <div className="col-span-6 sm:col-span-3">
                 <div className="flex items-center text-sm text-gray-700">
                   {summary === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                  한줄요약
+                  작업 내용
                 </div>
-                <input
-                  type="text"
-                  name="input-summary"
-                  id="input-summary"
-                  autoComplete="given-name"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  placeholder="ex) 결과창 가이드 추가"
-                  onChange={onChangInput}
-                  value={summary}
-                  onKeyPress={onKeyPressLock}
-                />
-              </div>
-              <div>
-                <div className="flex items-center text-sm text-gray-700">
-                  {description === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                  이슈경로
-                </div>
-
                 <div className="mt-1">
                   <textarea
-                    id="textarea-description"
-                    name="textarea-description"
+                    id="textarea-summary"
+                    name="textarea-summary"
                     rows={3}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder={'ex) https://jira.asasas.com/browse/ND-1097'}
+                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    placeholder="ex) 결과창 가이드 추가"
                     onChange={onChangTextArea}
-                    value={description}
+                    value={summary}
                   />
                 </div>
               </div>
@@ -158,7 +152,7 @@ const CreateSubmitLog: NextPage = () => {
                 <div className="flex items-center">
                   <div className="flex items-center text-sm text-gray-700">
                     {impact === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                    영향범위
+                    작업자 테스트 여부
                   </div>
                   <input
                     id="checkbox-impact"
@@ -178,7 +172,7 @@ const CreateSubmitLog: NextPage = () => {
                     name="textarea-impact"
                     rows={5}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder="ex) 강화 결과창"
+                    placeholder="ex) 테스트 완료"
                     onChange={onChangTextArea}
                     value={impact}
                     disabled={impactCheckBox}
@@ -190,7 +184,7 @@ const CreateSubmitLog: NextPage = () => {
                 <div className="flex items-center">
                   <div className="flex items-center text-sm text-gray-700">
                     {test === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                    테스트 건의
+                    기타
                   </div>
                   <input
                     id="checkbox-test"
@@ -210,34 +204,13 @@ const CreateSubmitLog: NextPage = () => {
                     name="textarea-test"
                     rows={5}
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder="ex) 강화 결과창 가이드, 연출이 정상적으로 출력이 되는지 확인"
+                    placeholder="기타 내용 입력해 주세요."
                     onChange={onChangTextArea}
                     value={test}
                     disabled={testCheckBox}
                   />
                 </div>
               </div>
-
-              {/* <div>
-                <div className="flex items-center">
-                  <div className="flex items-center text-sm text-gray-700">
-                    {updateNote === '' ? <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-300" /> : <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-600" />}
-                    업데이트 노트
-                  </div>
-                </div>
-                <div className="mt-1">
-                  <textarea
-                    id="textarea-update-note"
-                    name="textarea-update-note"
-                    rows={5}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder="ex) 강화 결과창 가이드 UI가 나타나는 연출이 비정상적으로 출력되는 버그 수정하였습니다."
-                    onChange={onChangTextArea}
-                    value={updateNote}
-                  />
-                </div>
-              </div> */}
-
               <div className="hidden sm:block" aria-hidden="true">
                 <div className="py-5">
                   <div className="border-t border-gray-200" />
